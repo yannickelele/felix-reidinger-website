@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Felix Reidinger — B2B-Kommunikation messbar erfolgreich</title>
+<meta name="description" content="Freier Kommunikationsberater für B2B: Strategie, Konzeption, Performance Marketing und Erfolgsmessung für Industrie und Mittelstand.">
+<meta name="theme-color" content="#170F44">
+<link rel="canonical" href="https://www.felix-reidinger.de/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Felix Reidinger — B2B-Kommunikation messbar erfolgreich">
+<meta property="og:description" content="Freier Kommunikationsberater für B2B: Strategie, Konzeption, Performance Marketing und Erfolgsmessung.">
+<meta property="og:image" content="./assets/img-hero.jpg">
+<meta property="og:locale" content="de_DE">
+<link rel="icon" href="./assets/logo-signet-kreis-lila.png">
+<link rel="apple-touch-icon" href="./assets/logo-signet-kreis-lila.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="./styles.css">
+<style>
+html{scroll-behavior:smooth}
+body{overflow-x:hidden}
+@keyframes fr-hero-in{from{transform:scale(1.08);opacity:0}to{transform:scale(1);opacity:1}}
+.fr-page{animation:fr-page-in 520ms var(--ease-out) both}
+@keyframes fr-page-in{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.fr-nav__links a{font-size:var(--size-label)}
+@media (max-width:640px){.fr-nav__links a{font-size:1rem}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important}}
+#root:empty::after{content:"";display:block;min-height:100svh;background:var(--fr-blau)}
+</style>
+<!-- Assets liegen im gleichen Ordner wie diese Datei -->
+<script>window.FR_ASSET_BASE='./assets';</script>
+<!-- Google-Sheet-Endpunkt für das Terminformular. Einrichtung: siehe README.md -->
+<script>window.FR_SHEET_ENDPOINT='';</script>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.production.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.production.min.js" crossorigin="anonymous"></script>
+<script src="./app.js" defer></script>
+</body>
+</html>
