@@ -1,11 +1,25 @@
 /* Felix Reidinger — design system, flattened. Source: design-system project. */
 
 /* ---- tokens/fonts.css ---- */
-/* Brand fonts per style guide: MUSEO SANS (text), WOLFGANG (display serif), BN SUPER-SIZED (display condensed).
-   No licensed font files were supplied, so the closest Google Fonts stand-ins are loaded.
-   Mulish -> Museo Sans | DM Serif Display -> Wolfgang | Anton -> BN Super-Sized
-   Replace with the licensed webfonts when available (keep the family names below). */
-@import url("https://fonts.googleapis.com/css2?family=Anton&family=DM+Serif+Display:ital@0;1&family=Mulish:ital,wght@0,300..900;1,300..900&display=swap");
+/* Markenschriften — Originaldateien aus dem Corporate Design.
+   Museo Sans (Text), Wolfgang (Serif-Headline), BN Super-Sized (Display-Headline).
+   Vorhanden ist jeweils genau ein Schnitt; deshalb kein Weight-Range.
+   Museo Sans liegt nur als Bold (700) vor — für längere Lauftexte fehlen die
+   Schnitte 300/500. Sobald sie da sind: hier zwei weitere @font-face-Regeln mit
+   font-weight:300 bzw. 500 ergänzen, sonst ändert sich nichts. */
+@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_700.otf") format("opentype");font-weight:700;font-style:normal;font-display:swap}
+/* Der gelieferte Schnitt deckt vorerst auch die leichteren Anforderungen ab,
+   damit die Marke durchgehend in Museo Sans gesetzt ist. */
+@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_700.otf") format("opentype");font-weight:300 600;font-style:normal;font-display:swap}
+/* BN Super-Sized: Versalschrift, kondensiert. Nur Großbuchstaben verwenden. */
+@font-face{font-family:"BN Super-Sized";src:url("./assets/fonts/BNSuper-Sized.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+/* Wolfgang Bold Italic: die Glyphen sind bereits kursiv, daher auch unter
+   font-style:italic dieselbe Datei — sonst legt der Browser eine zweite,
+   künstliche Schräglage darüber. */
+@font-face{font-family:"Wolfgang";src:url("./assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Wolfgang";src:url("./assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:italic;font-display:swap}
+/* Keine künstliche Fett- oder Kursivsimulation */
+:root{font-synthesis:none}
 
 /* ---- tokens/colors.css ---- */
 :root{
@@ -49,12 +63,12 @@
 /* ---- tokens/typography.css ---- */
 :root{
 /* families */
---font-display:"Anton","BN Super-Sized","Haettenschweiler",Impact,sans-serif;        /* BN Super-Sized */
---font-serif:"DM Serif Display","Wolfgang",Georgia,serif;                            /* Wolfgang */
---font-sans:"Mulish","Museo Sans","Helvetica Neue",Arial,sans-serif;                 /* Museo Sans */
+--font-display:"BN Super-Sized","Haettenschweiler",Impact,sans-serif;
+--font-serif:"Wolfgang",Georgia,serif;
+--font-sans:"Museo Sans","Helvetica Neue",Arial,sans-serif;
 --font-body:var(--font-sans);
 
-/* weights (Museo Sans 300/500/700 + italic in use) */
+/* weights — geliefert ist nur Museo Sans Bold (700) */
 --weight-light:300; /* @kind font */--weight-regular:400; /* @kind font */--weight-medium:600; /* @kind font */--weight-bold:700; /* @kind font */--weight-black:900; /* @kind font */
 
 /* display scale — uppercase condensed, tight */
@@ -62,14 +76,18 @@
 --size-display-l:clamp(2.75rem,6vw,5.5rem); /* @kind font */
 --size-display-m:clamp(2rem,4vw,3.5rem); /* @kind font */
 --size-display-s:clamp(1.6rem,2.6vw,2.25rem); /* @kind font */
---lh-display:0.9; /* @kind other */
+/* 1.02, damit die Umlautpunkte (Ü, Ä, Ö) bei mehrzeiligen Versal-Headlines
+   nicht an die Zeile darüber stoßen — BN Super-Sized setzt sie sehr hoch. */
+--lh-display:1.02; /* @kind other */
 --tracking-display:0.01em; /* @kind other */
 
-/* serif scale — mixed case, pairs with display */
+/* serif scale — Versalien, gepaart mit Display */
 --size-serif-xl:clamp(2.9rem,7.4vw,7.2rem); /* @kind font */
 --size-serif-l:clamp(2.3rem,5vw,4.5rem); /* @kind font */
 --size-serif-m:clamp(1.75rem,3.4vw,2.9rem); /* @kind font */
---lh-serif:0.95; /* @kind other */
+--lh-serif:1.04; /* @kind other */
+/* Unterlängen-Reserve: Wolfgang-Versalien (J, Q) laufen unter die Grundlinie */
+--descender-guard:0.2em; /* @kind spacing */
 
 /* text scale */
 --size-lead:clamp(1.125rem,1.5vw,1.375rem); /* @kind font */
@@ -176,12 +194,16 @@ img{max-width:100%;display:block}
 .fr-badge--outline{box-shadow:inset 0 0 0 var(--border-width) currentColor}
 .fr-eyebrow{font-family:var(--font-sans);font-weight:var(--weight-bold);font-size:var(--size-label);letter-spacing:var(--tracking-label);text-transform:uppercase;opacity:.75}
 
-/* Duo heading — the brand's core type motif */
-.fr-duo{margin:0;display:flex;flex-direction:column;gap:.04em}
+/* Duo heading — the brand's core type motif. Headlines are always uppercase (CD);
+   both faces get descender room so J/Q/g never clip against a mask or a rounded box.
+   Lange Komposita (FILMPRODUKTION, ERFOLGSMESSUNG) müssen umbrechen dürfen, sonst
+   laufen sie aus ihrer Spalte in die Nachbarspalte. */
+.fr-duo{margin:0;display:flex;flex-direction:column;gap:.02em;text-transform:uppercase;min-width:0;max-width:100%;hyphens:auto;overflow-wrap:break-word;text-wrap:balance}
 .fr-duo--inline{display:block}
-.fr-duo__serif{font-family:var(--font-serif);line-height:var(--lh-serif);font-weight:400}
-.fr-duo__serif--italic{font-style:italic}
-.fr-duo__cond{font-family:var(--font-display);text-transform:uppercase;line-height:var(--lh-display);letter-spacing:var(--tracking-display);font-weight:400}
+.fr-duo__serif{font-family:var(--font-serif);line-height:var(--lh-serif);font-weight:400;padding-bottom:var(--descender-guard);margin-bottom:calc(var(--descender-guard) * -1);min-width:0}
+/* Wolfgang ist bereits kursiv gezeichnet — keine zweite, künstliche Schräglage */
+.fr-duo__serif--italic{font-style:normal}
+.fr-duo__cond{font-family:var(--font-display);line-height:var(--lh-display);letter-spacing:var(--tracking-display);font-weight:400;padding-bottom:.04em;margin-bottom:-.04em;min-width:0}
 .fr-duo--xl .fr-duo__cond{font-size:var(--size-display-xl)}
 .fr-duo--xl .fr-duo__serif{font-size:var(--size-serif-xl)}
 .fr-duo--l .fr-duo__cond{font-size:var(--size-display-l)}
@@ -190,6 +212,16 @@ img{max-width:100%;display:block}
 .fr-duo--m .fr-duo__serif{font-size:var(--size-serif-m)}
 .fr-duo--s .fr-duo__cond{font-size:var(--size-display-s)}
 .fr-duo--s .fr-duo__serif{font-size:calc(var(--size-display-s) * 1.05)}
+/* In engen Spalten (Karten, Raster) skalieren die kleinen Headlines mit der
+   Spaltenbreite, damit kein Wort über den Rand läuft. Voraussetzung ist ein
+   Container-Vorfahre: .fr-card__body bringt ihn mit, sonst .fr-duo-fit setzen. */
+.fr-duo-fit{container-type:inline-size}
+@supports (width:1cqi){
+.fr-duo-fit .fr-duo--s .fr-duo__cond,.fr-card__body .fr-duo--s .fr-duo__cond{font-size:min(var(--size-display-s),11.5cqi)}
+.fr-duo-fit .fr-duo--s .fr-duo__serif,.fr-card__body .fr-duo--s .fr-duo__serif{font-size:min(calc(var(--size-display-s) * 1.05),11.5cqi)}
+.fr-duo-fit .fr-duo--m .fr-duo__cond{font-size:min(var(--size-display-m),13cqi)}
+.fr-duo-fit .fr-duo--m .fr-duo__serif{font-size:min(var(--size-serif-m),13cqi)}
+}
 
 /* Cards */
 .fr-card{position:relative;background:var(--surface-card);border-radius:var(--radius-m);overflow:hidden;box-shadow:var(--shadow-card);transition:transform var(--dur-base) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand)}
@@ -197,7 +229,7 @@ img{max-width:100%;display:block}
 .fr-card__media{overflow:hidden;aspect-ratio:306/259}
 .fr-card__media img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-slow) var(--ease-brand)}
 .fr-card:hover .fr-card__media img{transform:scale(1.06)}
-.fr-card__body{padding:var(--space-5) var(--space-5) var(--space-6)}
+.fr-card__body{padding:var(--space-5) var(--space-5) var(--space-6);container-type:inline-size}
 .fr-card--deep{background:var(--surface-card-deep);color:var(--text-on-deep)}
 
 /* Sections & texture grounds */
@@ -219,7 +251,9 @@ img{max-width:100%;display:block}
 /* Scroll reveal */
 .fr-reveal{opacity:0;transform:translateY(var(--reveal-shift));transition:opacity var(--dur-reveal) var(--ease-out),transform var(--dur-reveal) var(--ease-out);will-change:opacity,transform}
 .fr-reveal.is-in{opacity:1;transform:none}
-.fr-mask{display:block;overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em}
+/* Reveal-Maske: großzügige Unterlängen-Reserve, sonst schneidet overflow:hidden
+   die Unterlängen von Wolfgang (J, Q) und Museo Sans (g, y) ab. */
+.fr-mask{display:block;overflow:hidden;padding-bottom:var(--descender-guard);margin-bottom:calc(var(--descender-guard) * -1)}
 .fr-mask>*{transform:translateY(102%);transition:transform var(--dur-reveal) var(--ease-out);will-change:transform}
 .fr-mask.is-in>*{transform:none}
 @media (prefers-reduced-motion:reduce){.fr-reveal,.fr-mask>*{opacity:1;transform:none;transition:none}}
@@ -271,7 +305,7 @@ img{max-width:100%;display:block}
 /* Legal / long-form prose */
 .fr-prose{max-width:74ch}
 .fr-prose h3{font-family:var(--font-display);text-transform:uppercase;font-size:var(--size-display-s);line-height:var(--lh-display);margin:var(--space-8) 0 var(--space-4)}
-.fr-prose h4{font-family:var(--font-serif);font-size:1.5rem;line-height:1.2;margin:var(--space-6) 0 var(--space-3)}
+.fr-prose h4{font-family:var(--font-serif);text-transform:uppercase;font-size:1.5rem;line-height:1.24;margin:var(--space-6) 0 var(--space-3)}
 .fr-prose p,.fr-prose li{font-size:var(--size-small);line-height:1.75}
 .fr-prose p{margin:0 0 var(--space-4)}
 .fr-prose ul{margin:0 0 var(--space-5);padding-left:1.1em}
@@ -289,7 +323,7 @@ img{max-width:100%;display:block}
 /* Numbered principle rows — numeral track scales, stacks when narrow */
 .fr-principles{container-type:inline-size}
 .fr-principle{display:grid;grid-template-columns:minmax(48px,14%) 1fr;gap:var(--space-5);align-items:start;padding-block:var(--space-6);border-top:var(--border-width) solid var(--border-on-deep)}
-.fr-principle__num{font-family:var(--font-display);line-height:.8;font-size:var(--size-display-m)}
+.fr-principle__num{font-family:var(--font-display);line-height:.92;font-size:var(--size-display-m)}
 .fr-principle__text{margin:0;font-size:var(--size-lead);line-height:var(--lh-lead);font-weight:var(--weight-medium)}
 .fr-principle--lg{grid-template-columns:minmax(72px,110px) 1fr;gap:var(--space-6)}
 .fr-principle--sm{padding-block:var(--space-5);gap:var(--space-4);border-top-color:var(--border-hairline)}

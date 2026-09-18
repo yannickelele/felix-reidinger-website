@@ -6,7 +6,7 @@ Statische Website. Kein Build-Schritt, kein Node, keine Abhängigkeiten — Verc
 index.html      Seite (alle Unterseiten laufen darin, über #/…)
 app.js          Komponenten + Screens, fertig übersetzt
 styles.css      komplettes Design-System, eine Datei
-assets/         Logos, Papier-Hintergründe, Fotos
+assets/         Logos, Papier-Hintergründe, Fotos, fonts/ (Markenschriften)
 vercel.json     Routing, Cache- und Security-Header
 robots.txt      Suchmaschinen
 sitemap.xml     Seitenliste
@@ -84,10 +84,10 @@ Nach jeder Änderung am Apps Script muss eine **neue Bereitstellung** erstellt w
 
 - **Texte und Bilder**: in `app.js` suchen und ersetzen. Bilder in `assets/` austauschen, Dateinamen beibehalten.
 - **Farben, Schriftgrößen, Abstände**: in `styles.css` oben bei den `--fr-*`-Variablen.
-- **Schriften**: aktuell stehen Anton, DM Serif Display und Mulish von Google Fonts als Platzhalter für die Markenschriften BN Super-Sized, Wolfgang und Museo Sans. Zum Tausch die lizenzierten Webfont-Dateien nach `assets/fonts/` legen und in `styles.css` den `@import` der Google Fonts durch `@font-face`-Regeln ersetzen — die Schriftnamen in den Variablen `--font-display`, `--font-serif`, `--font-sans` stimmen bereits.
+- **Schriften**: die Originalschriften liegen in `assets/fonts/` (BN Super-Sized, Wolfgang Bold Italic, Museo Sans Bold) und werden in `styles.css` per `@font-face` geladen. Keine externen Schrift-Dienste mehr. Von Museo Sans liegt nur der Bold-Schnitt vor; kommen die Schnitte 300/500 dazu, in `styles.css` zwei weitere `@font-face`-Regeln mit `font-weight:300` bzw. `500` ergänzen.
 
 ## Vor dem Live-Gang prüfen
 
 - Datenschutzerklärung um einen Abschnitt zum Kontaktformular ergänzen (Daten liegen bei Google).
 - Impressums- und Datenschutztexte rechtlich prüfen lassen.
-- Schriftlizenzen klären, falls die Platzhalter ersetzt werden.
+- Prüfen, ob die Schriftlizenzen die Einbindung als Webfont abdecken (die OTF-Dateien sind über `/assets/fonts/` öffentlich abrufbar). Falls nicht, in webfont-spezifische Lizenzen wechseln.

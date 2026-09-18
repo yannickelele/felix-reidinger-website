@@ -304,7 +304,7 @@
         fontFamily: 'var(--font-display)',
         textTransform: 'uppercase',
         fontSize: 'var(--size-display-s)',
-        lineHeight: 1,
+        lineHeight: 1.1,
         whiteSpace: 'nowrap',
         opacity: i % 2 ? .45 : 1
       }
@@ -404,7 +404,7 @@
       style: {
         fontFamily: 'var(--font-display)',
         fontSize: 'var(--size-display-l)',
-        lineHeight: .85,
+        lineHeight: .95,
         textTransform: 'uppercase'
       }
     }, value), children ? React.createElement('p', {
@@ -1059,7 +1059,7 @@
       style: {
         fontFamily: 'var(--font-display)',
         fontSize: 'var(--size-display-l)',
-        lineHeight: .85
+        lineHeight: .95
       }
     }, /*#__PURE__*/React.createElement(CountUp, {
       to: 10
@@ -1469,13 +1469,14 @@
     }, "Kompetenzen im Netzwerk")), /*#__PURE__*/React.createElement("div", {
       style: {
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit,minmax(260px,1fr))',
-        gap: 'var(--space-5)'
+        gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))',
+        gap: 'var(--space-5) var(--space-6)'
       }
     }, kompetenzen.map(([a, b], i) => /*#__PURE__*/React.createElement(Reveal, {
       key: a,
       delay: i * 80
     }, /*#__PURE__*/React.createElement("div", {
+      className: "fr-duo-fit",
       style: {
         padding: 'var(--space-6) var(--space-5)',
         borderTop: 'var(--border-width) solid var(--border-on-deep)'
