@@ -1,8 +1,383 @@
-@import url("tokens/fonts.css");
-@import url("tokens/colors.css");
-@import url("tokens/typography.css");
-@import url("tokens/spacing.css");
-@import url("tokens/effects.css");
-@import url("tokens/motion.css");
-@import url("css/base.css");
-@import url("css/components.css");
+/* Felix Reidinger — design system, flattened. Source: design-system project. */
+
+/* ---- tokens/fonts.css ---- */
+/* Markenschriften — Originaldateien aus dem Corporate Design.
+   Museo Sans 300/500/700 (Text), Wolfgang Bold Italic (Serif-Headline),
+   BN Super-Sized (Display-Headline). */
+@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_300.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_500.otf") format("opentype");font-weight:400 500;font-style:normal;font-display:swap}
+@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_700.otf") format("opentype");font-weight:600 900;font-style:normal;font-display:swap}
+/* BN Super-Sized: Versalschrift, kondensiert. Nur Großbuchstaben verwenden. */
+@font-face{font-family:"BN Super-Sized";src:url("./assets/fonts/BNSuper-Sized.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+/* Wolfgang Bold Italic: die Glyphen sind bereits kursiv, daher auch unter
+   font-style:italic dieselbe Datei — sonst legt der Browser eine zweite,
+   künstliche Schräglage darüber. */
+@font-face{font-family:"Wolfgang";src:url("./assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Wolfgang";src:url("./assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:italic;font-display:swap}
+/* Keine künstliche Fett- oder Kursivsimulation */
+:root{font-synthesis:none}
+
+/* ---- tokens/colors.css ---- */
+:root{
+/* --- Brand palette (Style Guide 02 Farben) --- */
+--fr-beige:#F4EEE6;          /* Beige   CMYK 4/7/10/0 */
+--fr-lila-1:#633593;         /* Lila I  CMYK 72/91/0/0 */
+--fr-lila-2:#7044E6;         /* Lila II */
+--fr-blau:#170F44;           /* Blau    CMYK 100/100/12/56 */
+--fr-gelb:#F2F73A;           /* Gelb    CMYK 10/0/93/0 */
+--fr-weiss:#FFFFFF;
+/* Verlauf (gradient) */
+--fr-verlauf:linear-gradient(120deg,#7044E6 0%,#633593 55%,#170F44 100%); /* @kind other */
+--fr-verlauf-soft:linear-gradient(120deg,#7044E6 0%,#633593 100%); /* @kind other */
+/* --- Tints, derived only for UI states --- */
+--fr-blau-80:#3B3462;
+--fr-blau-12:rgba(23,15,68,.12);
+--fr-blau-06:rgba(23,15,68,.06);
+--fr-beige-70:rgba(244,238,230,.7);
+--fr-beige-40:rgba(244,238,230,.4);
+--fr-beige-16:rgba(244,238,230,.16);
+--fr-lila-2-16:rgba(112,68,230,.16);
+/* --- Semantic aliases --- */
+--surface-page:var(--fr-beige);
+--surface-deep:var(--fr-blau);
+--surface-accent:var(--fr-lila-2);
+--surface-card:var(--fr-beige);
+--surface-card-deep:var(--fr-blau);
+--surface-inverse:var(--fr-blau);
+--text-body:var(--fr-blau);
+--text-heading:var(--fr-blau);
+--text-muted:var(--fr-blau-80);
+--text-on-deep:var(--fr-beige);
+--text-on-accent:var(--fr-beige);
+--text-accent:var(--fr-lila-2);
+--border-hairline:var(--fr-blau-12);
+--border-on-deep:var(--fr-beige-16);
+--focus-ring:var(--fr-lila-2);
+--highlight:var(--fr-gelb);
+}
+
+/* ---- tokens/typography.css ---- */
+:root{
+/* families */
+--font-display:"BN Super-Sized","Haettenschweiler",Impact,sans-serif;
+--font-serif:"Wolfgang",Georgia,serif;
+--font-sans:"Museo Sans","Helvetica Neue",Arial,sans-serif;
+--font-body:var(--font-sans);
+
+/* weights — Museo Sans liegt als 300, 500 und 700 vor */
+--weight-light:300; /* @kind font */--weight-regular:400; /* @kind font */--weight-medium:500; /* @kind font */--weight-bold:700; /* @kind font */--weight-black:700; /* @kind font */
+
+/* display scale — uppercase condensed, tight */
+--size-display-xl:clamp(3.4rem,9vw,8.75rem); /* @kind font */
+--size-display-l:clamp(2.75rem,6vw,5.5rem); /* @kind font */
+--size-display-m:clamp(2rem,4vw,3.5rem); /* @kind font */
+--size-display-s:clamp(1.6rem,2.6vw,2.25rem); /* @kind font */
+/* 1.02, damit die Umlautpunkte (Ü, Ä, Ö) bei mehrzeiligen Versal-Headlines
+   nicht an die Zeile darüber stoßen — BN Super-Sized setzt sie sehr hoch. */
+--lh-display:1.02; /* @kind other */
+--tracking-display:0.01em; /* @kind other */
+
+/* serif scale — Versalien, gepaart mit Display */
+--size-serif-xl:clamp(2.9rem,7.4vw,7.2rem); /* @kind font */
+--size-serif-l:clamp(2.3rem,5vw,4.5rem); /* @kind font */
+--size-serif-m:clamp(1.75rem,3.4vw,2.9rem); /* @kind font */
+--lh-serif:1.04; /* @kind other */
+/* Unterlängen-Reserve: Wolfgang-Versalien (J, Q) laufen unter die Grundlinie */
+--descender-guard:0.2em; /* @kind spacing */
+
+/* text scale */
+--size-lead:clamp(1.125rem,1.5vw,1.375rem); /* @kind font */
+--size-body:1.0625rem; /* @kind font */
+--size-small:0.9375rem; /* @kind font */
+--size-label:0.8125rem; /* @kind font */
+--lh-body:1.65; /* @kind other */
+--lh-lead:1.55; /* @kind other */
+--tracking-label:0.16em; /* @kind other */
+--tracking-button:0.08em; /* @kind other */
+}
+
+/* ---- tokens/spacing.css ---- */
+:root{
+--space-1:4px;--space-2:8px;--space-3:12px;--space-4:16px;--space-5:24px;--space-6:32px;
+--space-7:48px;--space-8:64px;--space-9:96px;--space-10:128px;--space-11:180px;
+--section-y:clamp(72px,10vw,160px); /* @kind spacing */
+--gutter:clamp(20px,5vw,72px); /* @kind spacing */
+--measure:64ch; /* @kind spacing */
+--container:1240px; /* @kind spacing */
+--container-narrow:820px; /* @kind spacing */
+}
+
+/* ---- tokens/effects.css ---- */
+:root{
+--radius-none:0px;
+--radius-s:6px;
+--radius-m:14px;
+--radius-l:28px;
+--radius-pill:999px;
+--radius-circle:50%;
+--shadow-card:0 18px 48px -24px rgba(23,15,68,.35);
+--shadow-lift:0 30px 70px -28px rgba(23,15,68,.45);
+--shadow-inset-deep:inset 0 0 120px rgba(23,15,68,.35);
+--border-width:1.5px; /* @kind spacing */
+/* Brand textures — Style Guide 02 Farben / TEXTUREN (01 Paper, 02 Cardboard, 03 Paper).
+   The scans are baked onto each brand colour as seamless 1024px tiles, so the fibre
+   shows at its native scale and needs no blend mode. Tile at --texture-tile; scaling
+   the tile up past ~600px smooths the grain away. */
+--bg-paper:url("./assets/bg-beige-paper.jpg"); /* @kind other */
+--bg-cardboard:url("./assets/bg-beige-cardboard.jpg"); /* @kind other */
+--bg-lila-paper:url("./assets/bg-lila-paper.jpg"); /* @kind other */
+--bg-lila1-paper:url("./assets/bg-lila1-paper.jpg"); /* @kind other */
+--bg-blau-paper:url("./assets/bg-blau-paper.jpg"); /* @kind other */
+--texture-tile:460px; /* @kind spacing */
+/* Neutral grain for laying fibre over photography (soft-light) */
+--grain-tile:url("./assets/grain-tile.jpg"); /* @kind other */
+--grain-opacity:.55; /* @kind other */
+/* Raw scans, kept as source material */
+--blur-glass:14px; /* @kind other */
+}
+
+/* ---- tokens/motion.css ---- */
+:root{
+--ease-brand:cubic-bezier(.16,.84,.26,1); /* @kind other */
+--ease-out:cubic-bezier(.22,1,.36,1); /* @kind other */
+--ease-inout:cubic-bezier(.65,0,.35,1); /* @kind other */
+--dur-fast:140ms; /* @kind other */
+--dur-base:260ms; /* @kind other */
+--dur-slow:640ms; /* @kind other */
+--dur-reveal:900ms; /* @kind other */
+--stagger:90ms; /* @kind other */
+--reveal-shift:28px; /* @kind other */
+}
+
+/* ---- css/base.css ---- */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--surface-page);color:var(--text-body);font-family:var(--font-body);font-size:var(--size-body);font-weight:var(--weight-light);line-height:var(--lh-body);-webkit-font-smoothing:antialiased;text-wrap:pretty}
+/* Lauftext steht in Museo Sans 300; Lead-Absätze und Hervorhebungen in 500 */
+p{font-weight:var(--weight-light)}
+strong,b{font-weight:var(--weight-bold)}
+a{color:var(--text-accent);text-decoration:none;font-weight:var(--weight-medium);transition:color var(--dur-fast) var(--ease-brand),opacity var(--dur-fast) var(--ease-brand)}
+a:hover{color:var(--fr-lila-1)}
+img{max-width:100%;display:block}
+::selection{background:var(--fr-gelb);color:var(--fr-blau)}
+:focus-visible{outline:2px solid var(--focus-ring);outline-offset:3px}
+
+/* ---- css/components.css ---- */
+/* Felix Reidinger — component styles. Class names are stable API; all values come from tokens. */
+
+/* Buttons */
+.fr-btn{display:inline-flex;align-items:center;gap:10px;border:0;cursor:pointer;font-family:var(--font-sans);font-weight:var(--weight-bold);letter-spacing:var(--tracking-button);text-transform:uppercase;border-radius:var(--radius-pill);transition:transform var(--dur-base) var(--ease-brand),background var(--dur-base) var(--ease-brand),color var(--dur-base) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand)}
+.fr-btn--md{padding:16px 30px;font-size:var(--size-label)}
+.fr-btn--sm{padding:11px 20px;font-size:.75rem}
+.fr-btn--lg{padding:20px 40px;font-size:.9375rem}
+.fr-btn--primary{background:var(--fr-lila-2);color:var(--fr-beige)}
+.fr-btn--primary:hover{background:var(--fr-lila-1);transform:translateY(-2px);box-shadow:var(--shadow-card)}
+.fr-btn--dark{background:var(--fr-blau);color:var(--fr-beige)}
+.fr-btn--dark:hover{background:var(--fr-lila-2);transform:translateY(-2px)}
+.fr-btn--light{background:var(--fr-beige);color:var(--fr-blau)}
+.fr-btn--light:hover{background:var(--fr-weiss);transform:translateY(-2px)}
+.fr-btn--outline{background:transparent;color:var(--fr-blau);box-shadow:inset 0 0 0 var(--border-width) var(--fr-blau)}
+.fr-btn--outline:hover{background:var(--fr-blau);color:var(--fr-beige)}
+.fr-btn--outline-light{background:transparent;color:var(--fr-beige);box-shadow:inset 0 0 0 var(--border-width) var(--fr-beige-40)}
+.fr-btn--outline-light:hover{background:var(--fr-beige);color:var(--fr-blau)}
+.fr-btn:active{transform:translateY(0) scale(.98)}
+.fr-btn[disabled]{opacity:.4;cursor:not-allowed;transform:none;box-shadow:none}
+.fr-btn__arrow{transition:transform var(--dur-base) var(--ease-brand)}
+.fr-btn:hover .fr-btn__arrow{transform:translateX(4px)}
+
+/* Badge / Eyebrow */
+.fr-badge{display:inline-block;font-family:var(--font-sans);font-weight:var(--weight-bold);font-size:var(--size-label);letter-spacing:var(--tracking-label);text-transform:uppercase;padding:10px 22px;border-radius:var(--radius-pill)}
+.fr-badge--dark{background:var(--fr-blau);color:var(--fr-beige)}
+.fr-badge--lila{background:var(--fr-lila-2);color:var(--fr-beige)}
+.fr-badge--beige{background:var(--fr-beige);color:var(--fr-blau)}
+.fr-badge--gelb{background:var(--fr-gelb);color:var(--fr-blau)}
+.fr-badge--outline{box-shadow:inset 0 0 0 var(--border-width) currentColor}
+.fr-eyebrow{font-family:var(--font-sans);font-weight:var(--weight-bold);font-size:var(--size-label);letter-spacing:var(--tracking-label);text-transform:uppercase;opacity:.75}
+
+/* Duo heading — the brand's core type motif. Headlines are always uppercase (CD);
+   both faces get descender room so J/Q/g never clip against a mask or a rounded box.
+   Lange Komposita (FILMPRODUKTION, ERFOLGSMESSUNG) müssen umbrechen dürfen, sonst
+   laufen sie aus ihrer Spalte in die Nachbarspalte. */
+.fr-duo{margin:0;display:flex;flex-direction:column;gap:.02em;text-transform:uppercase;min-width:0;max-width:100%;hyphens:auto;overflow-wrap:break-word;text-wrap:balance}
+.fr-duo--inline{display:block}
+/* fit-Modus: jede Zeile wird per JS auf die Spaltenbreite herunterskaliert */
+.fr-duo--fit>span{white-space:nowrap}
+.fr-duo__serif{font-family:var(--font-serif);line-height:var(--lh-serif);font-weight:400;padding-bottom:var(--descender-guard);margin-bottom:calc(var(--descender-guard) * -1);min-width:0}
+/* Wolfgang ist bereits kursiv gezeichnet — keine zweite, künstliche Schräglage */
+.fr-duo__serif--italic{font-style:normal}
+.fr-duo__cond{font-family:var(--font-display);line-height:var(--lh-display);letter-spacing:var(--tracking-display);font-weight:400;padding-bottom:.04em;margin-bottom:-.04em;min-width:0}
+.fr-duo--xl .fr-duo__cond{font-size:var(--size-display-xl)}
+.fr-duo--xl .fr-duo__serif{font-size:var(--size-serif-xl)}
+.fr-duo--l .fr-duo__cond{font-size:var(--size-display-l)}
+.fr-duo--l .fr-duo__serif{font-size:var(--size-serif-l)}
+.fr-duo--m .fr-duo__cond{font-size:var(--size-display-m)}
+.fr-duo--m .fr-duo__serif{font-size:var(--size-serif-m)}
+.fr-duo--s .fr-duo__cond{font-size:var(--size-display-s)}
+.fr-duo--s .fr-duo__serif{font-size:calc(var(--size-display-s) * 1.05)}
+/* In engen Spalten (Karten, Raster) skalieren die kleinen Headlines mit der
+   Spaltenbreite, damit kein Wort über den Rand läuft. Voraussetzung ist ein
+   Container-Vorfahre: .fr-card__body bringt ihn mit, sonst .fr-duo-fit setzen. */
+.fr-duo-fit{container-type:inline-size}
+@supports (width:1cqi){
+.fr-duo-fit .fr-duo--s .fr-duo__cond,.fr-card__body .fr-duo--s .fr-duo__cond{font-size:min(var(--size-display-s),11.5cqi)}
+.fr-duo-fit .fr-duo--s .fr-duo__serif,.fr-card__body .fr-duo--s .fr-duo__serif{font-size:min(calc(var(--size-display-s) * 1.05),11.5cqi)}
+.fr-duo-fit .fr-duo--m .fr-duo__cond{font-size:min(var(--size-display-m),13cqi)}
+.fr-duo-fit .fr-duo--m .fr-duo__serif{font-size:min(var(--size-serif-m),13cqi)}
+}
+
+/* Cards */
+.fr-card{position:relative;background:var(--surface-card);border-radius:var(--radius-m);overflow:hidden;box-shadow:var(--shadow-card);transition:transform var(--dur-base) var(--ease-brand),box-shadow var(--dur-base) var(--ease-brand)}
+.fr-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lift)}
+.fr-card__media{overflow:hidden;aspect-ratio:306/259}
+.fr-card__media img{width:100%;height:100%;object-fit:cover;transition:transform var(--dur-slow) var(--ease-brand)}
+.fr-card:hover .fr-card__media img{transform:scale(1.06)}
+.fr-card__body{padding:var(--space-5) var(--space-5) var(--space-6);container-type:inline-size}
+.fr-card--deep{background:var(--surface-card-deep);color:var(--text-on-deep)}
+
+/* Sections & texture grounds */
+.fr-section{position:relative;padding-block:var(--section-y);padding-inline:var(--gutter)}
+.fr-section__inner{max-width:var(--container);margin:0 auto;position:relative;z-index:1}
+.fr-section--deep{background:var(--fr-blau);color:var(--text-on-deep)}
+.fr-section--accent{background:var(--fr-lila-2);color:var(--text-on-accent)}
+.fr-section--paper{background:var(--fr-beige)}
+/* Paper grounds: the scan is baked onto the colour, tiled at native fibre scale. */
+.fr-ground{position:absolute;inset:0;background-repeat:repeat;background-size:var(--texture-tile);pointer-events:none}
+.fr-ground--paper{background-image:var(--bg-paper)}
+.fr-ground--cardboard{background-image:var(--bg-cardboard);background-size:340px}
+.fr-ground--lila{background-image:var(--bg-lila-paper)}
+.fr-ground--lila1{background-image:var(--bg-lila1-paper)}
+.fr-ground--blau{background-image:var(--bg-blau-paper)}
+/* Neutral fibre over photography */
+.fr-grain{position:absolute;inset:0;background:var(--grain-tile) repeat 0 0/var(--texture-tile);mix-blend-mode:soft-light;opacity:var(--grain-opacity);pointer-events:none}
+
+/* Scroll reveal */
+.fr-reveal{opacity:0;transform:translateY(var(--reveal-shift));transition:opacity var(--dur-reveal) var(--ease-out),transform var(--dur-reveal) var(--ease-out);will-change:opacity,transform}
+.fr-reveal.is-in{opacity:1;transform:none}
+/* Reveal-Maske: großzügige Unterlängen-Reserve, sonst schneidet overflow:hidden
+   die Unterlängen von Wolfgang (J, Q) und Museo Sans (g, y) ab. */
+.fr-mask{display:block;overflow:hidden;padding-bottom:var(--descender-guard);margin-bottom:calc(var(--descender-guard) * -1)}
+.fr-mask>*{transform:translateY(102%);transition:transform var(--dur-reveal) var(--ease-out);will-change:transform}
+.fr-mask.is-in>*{transform:none}
+@media (prefers-reduced-motion:reduce){.fr-reveal,.fr-mask>*{opacity:1;transform:none;transition:none}}
+
+/* Marquee band */
+.fr-marquee{overflow:hidden;display:flex;gap:0}
+.fr-marquee__track{display:flex;gap:var(--space-7);padding-right:var(--space-7);animation:fr-marquee-x 26s linear infinite;flex:0 0 auto}
+@keyframes fr-marquee-x{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+@media (prefers-reduced-motion:reduce){.fr-marquee__track{animation:none}}
+
+/* Link with animated rule */
+.fr-link{display:inline-flex;align-items:center;gap:8px;font-weight:var(--weight-bold);font-size:var(--size-label);letter-spacing:var(--tracking-label);text-transform:uppercase;position:relative;color:inherit}
+.fr-link::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1.5px;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform var(--dur-base) var(--ease-brand)}
+.fr-link:hover{color:inherit}
+.fr-link:hover::after{transform:scaleX(1)}
+
+/* Nav */
+.fr-nav{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:var(--space-5);padding:var(--space-5) var(--gutter);transition:padding var(--dur-base) var(--ease-brand),background var(--dur-base) var(--ease-brand),backdrop-filter var(--dur-base) var(--ease-brand)}
+.fr-nav.is-stuck{padding-block:var(--space-3);background:rgba(23,15,68,.82);backdrop-filter:blur(var(--blur-glass))}
+.fr-nav__links{display:flex;align-items:center;gap:var(--space-6)}
+
+/* Responsive split layout */
+.fr-split{display:grid;grid-template-columns:var(--split-cols,1fr 1fr);gap:var(--split-gap,var(--space-8));align-items:center}
+.fr-split__media{min-height:240px}
+.fr-split__body{align-self:center}
+@media (max-width:900px){
+.fr-split{grid-template-columns:1fr}
+.fr-split__media,.fr-split__body{order:0 !important}
+.fr-split__media{min-height:0}
+.fr-split__media img{max-height:58vh}
+}
+
+/* Nav — burger below 820px */
+.fr-nav__burger{display:none;background:none;border:0;padding:10px;margin:-10px;cursor:pointer;color:inherit}
+.fr-nav__burger-box{display:flex;flex-direction:column;gap:5px;width:26px}
+.fr-nav__burger-box i{display:block;height:2px;background:currentColor;border-radius:2px;transition:transform var(--dur-base) var(--ease-brand),opacity var(--dur-fast) linear}
+.fr-nav.is-open .fr-nav__burger-box i:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.fr-nav.is-open .fr-nav__burger-box i:nth-child(2){opacity:0}
+.fr-nav.is-open .fr-nav__burger-box i:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+@media (max-width:820px){
+.fr-nav{flex-wrap:wrap}
+.fr-nav__burger{display:block}
+.fr-nav__links{width:100%;flex-direction:column;align-items:flex-start;gap:var(--space-4);overflow:hidden;max-height:0;opacity:0;transition:max-height var(--dur-base) var(--ease-brand),opacity var(--dur-base) var(--ease-brand),padding var(--dur-base) var(--ease-brand);padding:0}
+.fr-nav.is-open .fr-nav__links{max-height:60vh;opacity:1;padding-top:var(--space-5);padding-bottom:var(--space-3)}
+.fr-nav__links a{font-size:1.125rem;letter-spacing:.08em}
+.fr-nav__links .fr-btn{width:100%;justify-content:center}
+}
+
+/* Legal / long-form prose */
+.fr-prose{max-width:74ch}
+.fr-prose h3{font-family:var(--font-display);text-transform:uppercase;font-size:var(--size-display-s);line-height:var(--lh-display);margin:var(--space-8) 0 var(--space-4)}
+/* Erste Zeile bündig mit der Nachbarspalte — kein Vorlauf-Abstand */
+.fr-prose>*:first-child,.fr-prose>.fr-reveal:first-child>*:first-child,.fr-prose>.fr-mask:first-child>*>*:first-child{margin-top:0}
+.fr-prose h4{font-family:var(--font-serif);text-transform:uppercase;font-size:1.5rem;line-height:1.24;margin:var(--space-6) 0 var(--space-3)}
+.fr-prose p,.fr-prose li{font-size:var(--size-small);line-height:1.75}
+.fr-prose p{margin:0 0 var(--space-4)}
+.fr-prose ul{margin:0 0 var(--space-5);padding-left:1.1em}
+.fr-prose li{margin-bottom:var(--space-2)}
+.fr-prose strong{font-weight:var(--weight-bold)}
+.fr-prose a{word-break:break-word}
+
+/* Small-viewport polish */
+@media (max-width:640px){
+.fr-btn--lg{padding:17px 28px;font-size:.8125rem}
+.fr-badge{padding:8px 16px;font-size:.75rem}
+.fr-card__body{padding:var(--space-4) var(--space-4) var(--space-5)}
+}
+
+/* Numbered principle rows — numeral track scales, stacks when narrow */
+.fr-principles{container-type:inline-size}
+.fr-principle{display:grid;grid-template-columns:minmax(48px,14%) 1fr;gap:var(--space-5);align-items:start;padding-block:var(--space-6);border-top:var(--border-width) solid var(--border-on-deep)}
+.fr-principle__num{font-family:var(--font-display);line-height:.92;font-size:var(--size-display-m)}
+.fr-principle__text{margin:0;font-size:var(--size-lead);line-height:var(--lh-lead);font-weight:var(--weight-medium)}
+.fr-principle--lg{grid-template-columns:minmax(72px,110px) 1fr;gap:var(--space-6)}
+.fr-principle--sm{padding-block:var(--space-5);gap:var(--space-4);border-top-color:var(--border-hairline)}
+.fr-principle--sm .fr-principle__num{font-size:var(--size-display-s)}
+.fr-principle--sm .fr-principle__text{font-size:var(--size-body);line-height:var(--lh-body);font-weight:var(--weight-regular)}
+@container (max-width:420px){.fr-principle{grid-template-columns:1fr;gap:var(--space-2)}.fr-principle__num{font-size:var(--size-display-s)}}
+@media (max-width:560px){.fr-principle,.fr-principle--lg{grid-template-columns:1fr;gap:var(--space-2)}.fr-principle__num{font-size:var(--size-display-s)}}
+
+/* Forms */
+.fr-field{display:flex;flex-direction:column;gap:var(--space-2);min-width:0}
+.fr-field__label{font-family:var(--font-sans);font-weight:var(--weight-bold);font-size:var(--size-label);letter-spacing:var(--tracking-label);text-transform:uppercase}
+.fr-field__msg{font-size:var(--size-label);opacity:.7}
+.fr-field__msg--error{opacity:1;color:var(--fr-lila-1);font-weight:var(--weight-medium)}
+.fr-input{width:100%;font-family:var(--font-sans);font-size:var(--size-body);line-height:1.4;color:var(--fr-blau);background:var(--fr-beige);border:0;box-shadow:inset 0 0 0 var(--border-width) var(--fr-blau-12);border-radius:var(--radius-s);padding:14px 16px;transition:box-shadow var(--dur-base) var(--ease-brand),background var(--dur-base) var(--ease-brand)}
+.fr-input::placeholder{color:var(--fr-blau);opacity:.42}
+.fr-input:hover{box-shadow:inset 0 0 0 var(--border-width) rgba(23,15,68,.28)}
+.fr-input:focus{outline:0;background:var(--fr-weiss);box-shadow:inset 0 0 0 2px var(--fr-lila-2)}
+.fr-input.is-invalid{box-shadow:inset 0 0 0 2px var(--fr-lila-1)}
+.fr-input--area{resize:vertical;min-height:120px;line-height:var(--lh-body)}
+.fr-select{position:relative;display:block}
+.fr-select select{appearance:none;padding-right:44px;cursor:pointer}
+.fr-select__arrow{position:absolute;right:16px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:.75rem;opacity:.6}
+.fr-check{display:grid;grid-template-columns:auto 1fr;gap:var(--space-3);align-items:start;cursor:pointer;font-size:var(--size-small);line-height:1.5}
+.fr-check input{position:absolute;opacity:0;width:0;height:0}
+.fr-check__box{width:22px;height:22px;border-radius:var(--radius-s);box-shadow:inset 0 0 0 var(--border-width) var(--fr-blau-12);background:var(--fr-beige);position:relative;transition:background var(--dur-fast) var(--ease-brand),box-shadow var(--dur-fast) var(--ease-brand);flex:0 0 auto;margin-top:1px}
+.fr-check__box::after{content:"";position:absolute;left:7px;top:3px;width:6px;height:11px;border:2.5px solid var(--fr-beige);border-top:0;border-left:0;transform:rotate(42deg) scale(.4);opacity:0;transition:transform var(--dur-fast) var(--ease-brand),opacity var(--dur-fast) linear}
+.fr-check:hover .fr-check__box{box-shadow:inset 0 0 0 var(--border-width) rgba(23,15,68,.3)}
+.fr-check input:checked+.fr-check__box{background:var(--fr-lila-2);box-shadow:inset 0 0 0 var(--border-width) var(--fr-lila-2)}
+.fr-check input:checked+.fr-check__box::after{opacity:1;transform:rotate(42deg) scale(1)}
+.fr-check input:focus-visible+.fr-check__box{outline:2px solid var(--fr-lila-2);outline-offset:3px}
+.fr-check.is-invalid .fr-check__box{box-shadow:inset 0 0 0 2px var(--fr-lila-1)}
+/* On deep grounds */
+.fr-section--deep .fr-input,.fr-form--deep .fr-input{background:rgba(244,238,230,.08);color:var(--fr-beige);box-shadow:inset 0 0 0 var(--border-width) var(--fr-beige-16)}
+.fr-section--deep .fr-input::placeholder,.fr-form--deep .fr-input::placeholder{color:var(--fr-beige);opacity:.5}
+.fr-section--deep .fr-input:focus,.fr-form--deep .fr-input:focus{background:rgba(244,238,230,.14);box-shadow:inset 0 0 0 2px var(--fr-beige)}
+.fr-section--deep .fr-check__box,.fr-form--deep .fr-check__box{background:rgba(244,238,230,.08);box-shadow:inset 0 0 0 var(--border-width) var(--fr-beige-40)}
+.fr-section--deep .fr-check input:checked+.fr-check__box,.fr-form--deep .fr-check input:checked+.fr-check__box{background:var(--fr-beige);box-shadow:inset 0 0 0 var(--border-width) var(--fr-beige)}
+.fr-section--deep .fr-check input:checked+.fr-check__box::after,.fr-form--deep .fr-check input:checked+.fr-check__box::after{border-color:var(--fr-blau)}
+.fr-form{container-type:inline-size}
+.fr-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-5)}
+.fr-form-grid>.fr-col-2{grid-column:1/-1}
+/* Collapse on the GRID's own width, not the viewport's — the form also lives in
+   narrow columns, where a viewport query would never fire. */
+@container (max-width:560px){.fr-form-grid{grid-template-columns:1fr}}
+@media (max-width:700px){.fr-form-grid{grid-template-columns:1fr}}
+@supports not (container-type:inline-size){@media (max-width:1000px){.fr-form-grid{grid-template-columns:1fr}}}
+/* Labels keep a single line so paired controls stay aligned */
+.fr-form-grid .fr-field__label{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* Kontakt: form first, "So läuft das ab" below it until there is room for both */
+@media (max-width:1040px){.fr-kontakt .fr-split{grid-template-columns:1fr}.fr-kontakt .fr-split__media,.fr-kontakt .fr-split__body{order:0 !important}.fr-kontakt .fr-split__media{min-height:0}}
+
+/* Lead-Absatz: eine Gewichtsstufe über dem Lauftext */
+.fr-lead{font-size:var(--size-lead);line-height:var(--lh-lead);font-weight:var(--weight-medium)}

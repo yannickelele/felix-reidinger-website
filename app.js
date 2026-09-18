@@ -6,13 +6,17 @@
 
   var React = window.React,
     ReactDOM = window.ReactDOM;
+
+  // Offizielle Logodateien. Lock-up und Signet liegen als Vektor vor (aus dem CD),
+  // die reine Wortmarke bislang nur als PNG.
   const FILES = {
-    signet: 'logo-signet',
-    wordmark: 'logo-name-zweizeilig',
-    kreis: 'logo-signet-kreis'
+    lockup: t => `logo-lockup-${t}.svg`,
+    kreis: t => `logo-signet-kreis-${t}.svg`,
+    signet: t => `logo-signet-${t}.png`,
+    wordmark: t => `logo-name-zweizeilig-${t}.png`
   };
   function Logo({
-    variant = 'wordmark',
+    variant = 'lockup',
     tone = 'beige',
     height = 40,
     alt = 'Felix Reidinger',
@@ -20,15 +24,15 @@
     className
   }) {
     const base = typeof window !== 'undefined' && window.FR_ASSET_BASE || '../../assets';
-    const stem = FILES[variant] || FILES.wordmark;
-    const src = variant === 'kreis' ? `${base}/${stem}-${tone === 'weiss' ? 'beige' : tone}.png` : `${base}/${stem}-${tone}.png`;
+    const file = (FILES[variant] || FILES.lockup)(tone);
     return React.createElement('img', {
-      src,
+      src: `${base}/${file}`,
       alt,
       className,
       style: {
         height,
         width: 'auto',
+        display: 'block',
         ...style
       }
     });
@@ -36,27 +40,14 @@
   function LogoLockup({
     tone = 'beige',
     height = 40,
-    gap = 16,
     style
   }) {
-    return React.createElement('span', {
-      style: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap,
-        ...style
-      }
-    }, React.createElement(Logo, {
-      variant: 'kreis',
-      tone,
-      height: height * 1.05,
-      key: 'k'
-    }), React.createElement(Logo, {
-      variant: 'wordmark',
+    return React.createElement(Logo, {
+      variant: 'lockup',
       tone,
       height,
-      key: 'w'
-    }));
+      style
+    });
   }
   function Button({
     children,
@@ -114,8 +105,80 @@
     }, children);
   }
 
-  /** The brand's headline motif: one line condensed uppercase (BN Super-Sized),
-   *  one line mixed-case serif (Wolfgang). Either line may come first. */
+  /** Registry of fitting headings per group element, so a row of cards can settle
+   *  on one shared size instead of each heading shrinking on its own. */
+  const GROUPS = new WeakMap();
+  function measure(line) {
+    const range = document.createRange();
+    range.selectNodeContents(line);
+    const w = range.getBoundingClientRect().width;
+    if (range.detach) range.detach();
+    return w;
+  }
+  function applyGroup(group) {
+    const members = GROUPS.get(group);
+    if (!members || !members.size) return;
+    let scale = 1;
+    members.forEach(el => {
+      const avail = el.clientWidth;
+      if (!avail) return;
+      [...el.children].forEach(line => {
+        const base = parseFloat(line.dataset.frBase || 0);
+        if (!base) return;
+        line.style.fontSize = base + 'px';
+        const w = measure(line);
+        if (w > avail) scale = Math.min(scale, avail / w * 0.985);
+      });
+    });
+    scale = Math.max(scale, 0.5);
+    members.forEach(el => {
+      [...el.children].forEach(line => {
+        const base = parseFloat(line.dataset.frBase || 0);
+        if (base) line.style.fontSize = base * scale + 'px';
+      });
+    });
+  }
+
+  /** Shrinks headline lines just enough to sit on one line. Headings inside the
+   *  same [data-fit-group] all take the smallest required size, so a card row
+   *  stays typographically even. Only ever scales down. */
+  function useFitLines(ref, enabled, deps) {
+    React.useLayoutEffect(() => {
+      if (!enabled) return;
+      const el = ref.current;
+      if (!el) return;
+      const group = el.closest('[data-fit-group]') || el;
+      const readBase = () => {
+        [...el.children].forEach(line => {
+          line.style.fontSize = '';
+          line.dataset.frBase = parseFloat(getComputedStyle(line).fontSize);
+        });
+      };
+      const run = () => {
+        readBase();
+        applyGroup(group);
+      };
+      let members = GROUPS.get(group);
+      if (!members) {
+        members = new Set();
+        GROUPS.set(group, members);
+      }
+      members.add(el);
+      run();
+      const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(run) : null;
+      if (ro) ro.observe(group);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(run);
+      window.addEventListener('resize', run);
+      return () => {
+        members.delete(el);
+        if (ro) ro.disconnect();
+        window.removeEventListener('resize', run);
+      };
+    }, deps);
+  }
+
+  /** The brand's headline motif: one line condensed (BN Super-Sized),
+   *  one line serif (Wolfgang). Either line may come first. */
   function DuoHeading({
     top,
     bottom,
@@ -123,10 +186,13 @@
     size = 'l',
     italic = false,
     align = 'left',
+    fit = false,
     as = 'h2',
     style,
     className = ''
   }) {
+    const ref = React.useRef(null);
+    useFitLines(ref, fit, [fit, top, bottom, size, order]);
     const serif = React.createElement('span', {
       key: 's',
       className: `fr-duo__serif ${italic ? 'fr-duo__serif--italic' : ''}`.trim()
@@ -136,7 +202,8 @@
       className: 'fr-duo__cond'
     }, order === 'cond-serif' ? top : bottom);
     return React.createElement(as, {
-      className: `fr-duo fr-duo--${size} ${className}`.trim(),
+      ref,
+      className: `fr-duo fr-duo--${size} ${fit ? 'fr-duo--fit' : ''} ${className}`.trim(),
       style: {
         textAlign: align,
         ...style
@@ -283,7 +350,9 @@
     }, layers);
   }
 
-  /** Endless horizontal band — used for the competence keyword ticker. */
+  /** Endless horizontal band — used for the competence keyword ticker.
+   *  The item list is repeated until one track is at least as wide as the band,
+   *  so the row never runs dry on wide screens. */
   function Marquee({
     items = [],
     tone = 'deep',
@@ -291,25 +360,53 @@
     style,
     className = ''
   }) {
+    const hostRef = React.useRef(null);
+    const trackRef = React.useRef(null);
+    const [reps, setReps] = React.useState(2);
+    React.useEffect(() => {
+      const fit = () => {
+        const host = hostRef.current,
+          track = trackRef.current;
+        if (!host || !track) return;
+        const one = track.scrollWidth / reps;
+        if (!one) return;
+        const needed = Math.max(2, Math.ceil(host.offsetWidth / one) + 1);
+        if (needed !== reps) setReps(needed);
+      };
+      fit();
+      const ro = typeof ResizeObserver === 'function' ? new ResizeObserver(fit) : null;
+      if (ro && hostRef.current) ro.observe(hostRef.current);
+      window.addEventListener('resize', fit);
+      return () => {
+        if (ro) ro.disconnect();
+        window.removeEventListener('resize', fit);
+      };
+    }, [reps, items.length]);
+    const cells = [];
+    for (let r = 0; r < reps; r++) {
+      items.forEach((it, i) => cells.push(React.createElement('span', {
+        key: r + '-' + i,
+        style: {
+          fontFamily: 'var(--font-display)',
+          textTransform: 'uppercase',
+          fontSize: 'var(--size-display-s)',
+          lineHeight: 1.1,
+          whiteSpace: 'nowrap',
+          opacity: i % 2 ? .45 : 1
+        }
+      }, it)));
+    }
     const track = key => React.createElement('div', {
       key,
+      ref: key === 'a' ? trackRef : undefined,
       className: 'fr-marquee__track',
       style: {
-        animationDuration: speed + 's'
+        animationDuration: speed * reps / 2 + 's'
       },
       'aria-hidden': key === 'b'
-    }, items.map((it, i) => React.createElement('span', {
-      key: i,
-      style: {
-        fontFamily: 'var(--font-display)',
-        textTransform: 'uppercase',
-        fontSize: 'var(--size-display-s)',
-        lineHeight: 1.1,
-        whiteSpace: 'nowrap',
-        opacity: i % 2 ? .45 : 1
-      }
-    }, it)));
+    }, cells);
     return React.createElement('div', {
+      ref: hostRef,
       className: `fr-marquee ${className}`.trim(),
       style: {
         background: tone === 'deep' ? 'var(--fr-blau)' : tone === 'accent' ? 'var(--fr-lila-2)' : 'var(--fr-beige)',
@@ -339,7 +436,7 @@
       top,
       bottom,
       order: 'cond-serif',
-      italic: false,
+      fit: true,
       style: {
         marginBottom: 'var(--space-3)'
       }
@@ -519,6 +616,7 @@
       bottom,
       size: 'l',
       order: 'cond-serif',
+      fit: true,
       style: {
         marginBottom: 'var(--space-5)'
       }
@@ -685,11 +783,10 @@
         gap: 'var(--space-6)',
         justifyContent: 'space-between'
       }
-    }, React.createElement(Logo, {
+    }, React.createElement(LogoLockup, {
       key: 'l',
-      variant: 'wordmark',
       tone: 'beige',
-      height: 30
+      height: 34
     }), React.createElement('div', {
       key: 'n',
       style: {
@@ -1122,6 +1219,7 @@
       top: "Kompetenzen",
       bottom: "im \xDCberblick"
     })), /*#__PURE__*/React.createElement("div", {
+      "data-fit-group": true,
       style: {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))',
@@ -1343,6 +1441,7 @@
       top: "So setzen wir",
       bottom: "Performance Marketing um"
     })), /*#__PURE__*/React.createElement("div", {
+      "data-fit-group": true,
       style: {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit,minmax(240px,1fr))',
@@ -1467,6 +1566,7 @@
         marginBottom: 'var(--space-6)'
       }
     }, "Kompetenzen im Netzwerk")), /*#__PURE__*/React.createElement("div", {
+      "data-fit-group": true,
       style: {
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit,minmax(300px,1fr))',
@@ -1486,7 +1586,8 @@
       size: "s",
       order: "serif-cond",
       top: a,
-      bottom: b
+      bottom: b,
+      fit: true
     })))))), /*#__PURE__*/React.createElement(Section, {
       tone: "paper",
       texture: "cardboard"

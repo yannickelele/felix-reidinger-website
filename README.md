@@ -84,10 +84,11 @@ Nach jeder Änderung am Apps Script muss eine **neue Bereitstellung** erstellt w
 
 - **Texte und Bilder**: in `app.js` suchen und ersetzen. Bilder in `assets/` austauschen, Dateinamen beibehalten.
 - **Farben, Schriftgrößen, Abstände**: in `styles.css` oben bei den `--fr-*`-Variablen.
-- **Schriften**: die Originalschriften liegen in `assets/fonts/` (BN Super-Sized, Wolfgang Bold Italic, Museo Sans Bold) und werden in `styles.css` per `@font-face` geladen. Keine externen Schrift-Dienste mehr. Von Museo Sans liegt nur der Bold-Schnitt vor; kommen die Schnitte 300/500 dazu, in `styles.css` zwei weitere `@font-face`-Regeln mit `font-weight:300` bzw. `500` ergänzen.
+- **Schriften**: die Originalschriften liegen in `assets/fonts/` (BN Super-Sized, Wolfgang Bold Italic, Museo Sans 300/500/700) und werden in `styles.css` per `@font-face` geladen. Keine externen Schrift-Dienste.
+- **Logo**: `assets/logo-lockup-*.svg` (Kopfzeile, Footer) und `assets/logo-signet-kreis-*.svg` (Favicon). Vektor — beliebig skalierbar, Farbe pro Datei.
 
 ## Vor dem Live-Gang prüfen
 
 - Datenschutzerklärung um einen Abschnitt zum Kontaktformular ergänzen (Daten liegen bei Google).
 - Impressums- und Datenschutztexte rechtlich prüfen lassen.
-- Prüfen, ob die Schriftlizenzen die Einbindung als Webfont abdecken (die OTF-Dateien sind über `/assets/fonts/` öffentlich abrufbar). Falls nicht, in webfont-spezifische Lizenzen wechseln.
+- Prüfen, ob die Schriftlizenzen die Einbindung als Webfont abdecken (die OTF-Dateien sind über `/assets/fonts/` öffentlich abrufbar). Falls nicht, in webfont-spezifische Lizenzen wechseln — WOFF2 wäre dann ohnehin die schnellere Auslieferung.
