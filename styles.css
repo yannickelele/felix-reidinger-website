@@ -4,16 +4,16 @@
 /* Markenschriften — Originaldateien aus dem Corporate Design.
    Museo Sans 300/500/700 (Text), Wolfgang Bold Italic (Serif-Headline),
    BN Super-Sized (Display-Headline). */
-@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_300.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
-@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_500.otf") format("opentype");font-weight:400 500;font-style:normal;font-display:swap}
-@font-face{font-family:"Museo Sans";src:url("./assets/fonts/MuseoSans_700.otf") format("opentype");font-weight:600 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Museo Sans";src:url("/assets/fonts/MuseoSans_300.otf") format("opentype");font-weight:300;font-style:normal;font-display:swap}
+@font-face{font-family:"Museo Sans";src:url("/assets/fonts/MuseoSans_500.otf") format("opentype");font-weight:400 500;font-style:normal;font-display:swap}
+@font-face{font-family:"Museo Sans";src:url("/assets/fonts/MuseoSans_700.otf") format("opentype");font-weight:600 900;font-style:normal;font-display:swap}
 /* BN Super-Sized: Versalschrift, kondensiert. Nur Großbuchstaben verwenden. */
-@font-face{font-family:"BN Super-Sized";src:url("./assets/fonts/BNSuper-Sized.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
+@font-face{font-family:"BN Super-Sized";src:url("/assets/fonts/BNSuper-Sized.otf") format("opentype");font-weight:400;font-style:normal;font-display:swap}
 /* Wolfgang Bold Italic: die Glyphen sind bereits kursiv, daher auch unter
    font-style:italic dieselbe Datei — sonst legt der Browser eine zweite,
    künstliche Schräglage darüber. */
-@font-face{font-family:"Wolfgang";src:url("./assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:normal;font-display:swap}
-@font-face{font-family:"Wolfgang";src:url("./assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:italic;font-display:swap}
+@font-face{font-family:"Wolfgang";src:url("/assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:normal;font-display:swap}
+@font-face{font-family:"Wolfgang";src:url("/assets/fonts/Wolfgang-BoldItalic.otf") format("opentype");font-weight:400 900;font-style:italic;font-display:swap}
 /* Keine künstliche Fett- oder Kursivsimulation */
 :root{font-synthesis:none}
 
@@ -123,14 +123,14 @@
    The scans are baked onto each brand colour as seamless 1024px tiles, so the fibre
    shows at its native scale and needs no blend mode. Tile at --texture-tile; scaling
    the tile up past ~600px smooths the grain away. */
---bg-paper:url("./assets/bg-beige-paper.jpg"); /* @kind other */
---bg-cardboard:url("./assets/bg-beige-cardboard.jpg"); /* @kind other */
---bg-lila-paper:url("./assets/bg-lila-paper.jpg"); /* @kind other */
---bg-lila1-paper:url("./assets/bg-lila1-paper.jpg"); /* @kind other */
---bg-blau-paper:url("./assets/bg-blau-paper.jpg"); /* @kind other */
+--bg-paper:url("/assets/bg-beige-paper.jpg"); /* @kind other */
+--bg-cardboard:url("/assets/bg-beige-cardboard.jpg"); /* @kind other */
+--bg-lila-paper:url("/assets/bg-lila-paper.jpg"); /* @kind other */
+--bg-lila1-paper:url("/assets/bg-lila1-paper.jpg"); /* @kind other */
+--bg-blau-paper:url("/assets/bg-blau-paper.jpg"); /* @kind other */
 --texture-tile:460px; /* @kind spacing */
 /* Neutral grain for laying fibre over photography (soft-light) */
---grain-tile:url("./assets/grain-tile.jpg"); /* @kind other */
+--grain-tile:url("/assets/grain-tile.jpg"); /* @kind other */
 --grain-opacity:.55; /* @kind other */
 /* Raw scans, kept as source material */
 --blur-glass:14px; /* @kind other */
@@ -305,10 +305,10 @@ img{max-width:100%;display:block}
 
 /* Legal / long-form prose */
 .fr-prose{max-width:74ch}
-.fr-prose h3{font-family:var(--font-display);text-transform:uppercase;font-size:var(--size-display-s);line-height:var(--lh-display);margin:var(--space-8) 0 var(--space-4)}
+.fr-prose h2{font-family:var(--font-display);text-transform:uppercase;font-size:var(--size-display-s);line-height:var(--lh-display);margin:var(--space-8) 0 var(--space-4)}
 /* Erste Zeile bündig mit der Nachbarspalte — kein Vorlauf-Abstand */
 .fr-prose>*:first-child,.fr-prose>.fr-reveal:first-child>*:first-child,.fr-prose>.fr-mask:first-child>*>*:first-child{margin-top:0}
-.fr-prose h4{font-family:var(--font-serif);text-transform:uppercase;font-size:1.5rem;line-height:1.24;margin:var(--space-6) 0 var(--space-3)}
+.fr-prose h3{font-family:var(--font-serif);text-transform:uppercase;font-size:1.5rem;line-height:1.24;margin:var(--space-6) 0 var(--space-3)}
 .fr-prose p,.fr-prose li{font-size:var(--size-small);line-height:1.75}
 .fr-prose p{margin:0 0 var(--space-4)}
 .fr-prose ul{margin:0 0 var(--space-5);padding-left:1.1em}

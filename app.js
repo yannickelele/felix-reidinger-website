@@ -651,6 +651,7 @@
     cta = 'Termin vereinbaren',
     ctaHref = 'mailto:hallo@felix-reidinger.de',
     ctaId,
+    homeHref = '#top',
     tone = 'beige',
     style,
     className = ''
@@ -679,7 +680,8 @@
       }
     }, React.createElement('a', {
       key: 'l',
-      href: '#top',
+      href: homeHref,
+      'aria-label': 'Felix Reidinger — zur Startseite',
       onClick: e => {
         if (onNavigate) {
           e.preventDefault();
@@ -984,7 +986,7 @@
     MediaSplit,
     CtaPanel
   } = NS;
-  const A = './assets';
+  const A = '/assets';
   function useScrollY() {
     const [y, setY] = React.useState(0);
     React.useEffect(() => {
@@ -1037,6 +1039,7 @@
   }
   function Hero({
     image,
+    imageAlt = '',
     badge,
     top,
     bottom,
@@ -1062,7 +1065,7 @@
       }
     }, /*#__PURE__*/React.createElement("img", {
       src: image,
-      alt: "",
+      alt: imageAlt,
       style: {
         width: '100%',
         height: '118%',
@@ -1138,13 +1141,14 @@
       top: "Messbar",
       bottom: "erfolgreich",
       kicker: "Unternehmenskommunikation, Social Media, Web, Performance Marketing.",
+      imageAlt: "Felix Reidinger, freier Kommunikationsberater f\xFCr B2B, im Gespr\xE4ch mit einem Kunden",
       onNavigate: onNavigate
     }), /*#__PURE__*/React.createElement(Section, {
       tone: "paper",
       texture: "paper"
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${A}/img-felix-portrait.jpg`,
-      alt: "Felix Reidinger",
+      alt: "Portr\xE4t von Felix Reidinger, Kommunikationsberater aus Stuttgart",
       ratio: "0.85fr 1fr",
       gap: "clamp(32px,6vw,88px)"
     }, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement(Eyebrow, {
@@ -1180,7 +1184,7 @@
       texture: "lila"
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${A}/img-sven.jpg`,
-      alt: "Sven Tomschin",
+      alt: "Sven Tomschin, freier Berater f\xFCr Performance Marketing im Team von Felix Reidinger",
       reverse: true,
       ratio: "1fr 0.95fr",
       gap: "clamp(32px,6vw,88px)"
@@ -1227,21 +1231,25 @@
       }
     }, [{
       img: 'img-kompetenz-beratung.jpg',
+      alt: 'Kommunikationsberater vor einer Wand mit Haftnotizen während eines Strategie-Workshops',
       top: 'Beratung',
       bottom: 'Strategie',
       text: 'Du bist auf der Suche nach einem Strategie-Sparringspartner mit einem unabhängigen Blick von Außen? Wir unterstützen dich gerne bei der Entwicklung, Bewertung oder Umsetzung von Strategien und Konzepten.'
     }, {
       img: 'img-kompetenz-kreation.jpg',
+      alt: 'Zwei Personen im Büro bei der gemeinsamen Konzeptarbeit am Laptop',
       top: 'Kreation',
       bottom: 'Konzeption',
       text: 'Knappe Timings, zusätzliche Aufgaben und komplexe Themen lassen die Umsetzung in die ferne Zukunft rücken? Dann unterstützen wir dich und dein Team als zusätzliche Kapa+ in der Planung. Projektsteuerung oder Redaktion.'
     }, {
       img: 'img-kompetenz-performance.jpg',
+      alt: 'Berater am Stehtisch beim Aufsetzen einer digitalen Kampagne',
       top: 'Performance',
       bottom: 'Digital',
       text: 'Deine Contents sind top, jedoch erreichen sie nicht die richtigen Menschen? Wir setzen gemeinsam mit dir die passenden Marketing-Kanäle auf und spielen deine Inhalte zielgerichtet aus.'
     }, {
       img: 'img-kompetenz-analyse.jpg',
+      alt: 'Dashboard mit Kampagnenkennzahlen, Klickrate und Quality Score',
       top: 'Analyse',
       bottom: 'Erfolgsmessung',
       text: 'Du möchtest herausfinden, was deine Kommunikation wirklich bringt? Egal ob Benchmark, Performance Report oder Inhaltsanalysen - die Erfolgsmessung über verschiedene Kanäle hinweg ist unser Steckenpferd.'
@@ -1250,6 +1258,7 @@
       delay: i * 90
     }, /*#__PURE__*/React.createElement(KompetenzCard, {
       image: `${A}/${c.img}`,
+      alt: c.alt,
       top: c.top,
       bottom: c.bottom
     }, c.text))))), /*#__PURE__*/React.createElement(Section, {
@@ -1257,7 +1266,7 @@
       texture: "lila"
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${A}/img-netzwerk-team.jpg`,
-      alt: "Netzwerk",
+      alt: "Interdisziplin\xE4res Team aus dem Netzwerk bei der Projektarbeit",
       ratio: "1fr 1fr",
       gap: "clamp(32px,6vw,88px)"
     }, /*#__PURE__*/React.createElement(Reveal, {
@@ -1297,7 +1306,7 @@
       }
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${A}/img-felix-wide.jpg`,
-      alt: "Felix Reidinger",
+      alt: "Felix Reidinger im B\xFCro, offen f\xFCr ein Kennenlerngespr\xE4ch",
       ratio: "1.1fr 1fr",
       gap: "clamp(32px,6vw,72px)"
     }, /*#__PURE__*/React.createElement(DuoHeading, {
@@ -1326,7 +1335,7 @@
 /* ---- Screens.jsx ---- */
 (function () {
   const NSP = window.FelixReidingerDesignSystem_5335cf;
-  const AP = './assets';
+  const AP = '/assets';
   function PerformanceScreen({
     onNavigate
   }) {
@@ -1349,13 +1358,14 @@
       top: "Messbar",
       bottom: "erfolgreich",
       kicker: "Relevanz statt Reichweite ins Leere.",
+      imageAlt: "Performance-Marketing-Beratung f\xFCr B2B-Unternehmen",
       onNavigate: onNavigate
     }), /*#__PURE__*/React.createElement(Section, {
       tone: "paper",
       texture: "paper"
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${AP}/img-pipeline.jpg`,
-      alt: "",
+      alt: "Vertriebs-Pipeline im B2B-Marketing, von der Anzeige bis zum Abschluss",
       ratio: "0.9fr 1fr",
       gap: "clamp(32px,6vw,80px)"
     }, /*#__PURE__*/React.createElement(Reveal, {
@@ -1389,7 +1399,7 @@
       texture: "lila"
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${AP}/img-sven.jpg`,
-      alt: "Sven Tomschin",
+      alt: "Sven Tomschin ber\xE4t zu LinkedIn Ads und Account Based Marketing",
       reverse: true,
       ratio: "1fr 0.9fr",
       gap: "clamp(32px,6vw,80px)"
@@ -1449,21 +1459,25 @@
       }
     }, [{
       img: 'img-workshops.jpg',
+      alt: 'Workshop zur Positionierung und zum Lead-to-Sales-Prozess',
       top: 'Workshops',
       bottom: 'Audits',
       text: 'Wir klären gemeinsam die optimale Positionierung eures Angebots, definieren den Lead-to-Sales-Prozess und sichern frühzeitig das Buy-in vom Vertrieb.'
     }, {
       img: 'img-setup.jpg',
+      alt: 'Aufsetzen einer LinkedIn-Ads-Kampagne am Bildschirm',
       top: 'Set-up',
       bottom: 'Testing',
       text: 'Wir setzen eure Kampagne auf den passenden Kanälen um – mit Fokus auf LinkedIn Ads, Meta Ads und Account Based Marketing.'
     }, {
       img: 'img-nurturing.jpg',
+      alt: 'Lead Nurturing per E-Mail-Strecke und Social Selling',
       top: 'Nurturing',
       bottom: 'Pipeline',
       text: 'Leads werden aktiv entwickelt: Mit Frameworks für Nurturing, E-Mail-Strecken und Social Selling wandeln wir Kontakte in Geschäft.'
     }, {
       img: 'img-kompetenz-analyse.jpg',
+      alt: 'Reporting-Dashboard mit Kampagnenkennzahlen',
       top: 'Reporting',
       bottom: 'Learning',
       text: 'Klare Auswertungen zeigen, was funktioniert – und wo wir optimieren können.'
@@ -1472,6 +1486,7 @@
       delay: i * 90
     }, /*#__PURE__*/React.createElement(KompetenzCard, {
       image: `${AP}/${c.img}`,
+      alt: c.alt,
       top: c.top,
       bottom: c.bottom
     }, c.text))))), /*#__PURE__*/React.createElement(Section, {
@@ -1486,7 +1501,7 @@
       }
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${AP}/img-sven-portrait.jpg`,
-      alt: "Sven Tomschin",
+      alt: "Portr\xE4t von Sven Tomschin, Berater f\xFCr Performance Marketing",
       ratio: "1.1fr 1fr",
       gap: "clamp(32px,6vw,72px)"
     }, /*#__PURE__*/React.createElement(DuoHeading, {
@@ -1530,6 +1545,7 @@
       top: "Thinking big?",
       bottom: "Arbeiten im Netzwerk",
       kicker: "Ein passendes Team f\xFCr jedes Projekt.",
+      imageAlt: "Zusammenarbeit im Netzwerk aus Freelancern und Agenturen",
       onNavigate: onNavigate
     }), /*#__PURE__*/React.createElement(Section, {
       tone: "paper",
@@ -1593,7 +1609,7 @@
       texture: "cardboard"
     }, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${AP}/img-netzwerk-team.jpg`,
-      alt: "Netzwerk",
+      alt: "Interdisziplin\xE4res Team aus dem Netzwerk bei der Projektarbeit",
       reverse: true,
       ratio: "1fr 1fr",
       gap: "clamp(32px,6vw,80px)"
@@ -1640,7 +1656,7 @@
 /* ---- Legal.jsx ---- */
 (function () {
   const NSL = window.FelixReidingerDesignSystem_5335cf;
-  const AL = './assets';
+  const AL = '/assets';
   function LegalHero({
     badge,
     top,
@@ -1695,7 +1711,7 @@
     } = NSL;
     return /*#__PURE__*/React.createElement(Reveal, {
       delay: Math.min(i, 4) * 60
-    }, block.h3 ? /*#__PURE__*/React.createElement("h3", null, block.h3) : null, block.h4 ? /*#__PURE__*/React.createElement("h4", null, block.h4) : null, (block.p || []).map((t, n) => /*#__PURE__*/React.createElement("p", {
+    }, block.h3 ? /*#__PURE__*/React.createElement("h2", null, block.h3) : null, block.h4 ? /*#__PURE__*/React.createElement("h3", null, block.h4) : null, (block.p || []).map((t, n) => /*#__PURE__*/React.createElement("p", {
       key: n,
       dangerouslySetInnerHTML: {
         __html: t
@@ -2161,7 +2177,7 @@
       MediaSplit,
       PrincipleItem
     } = NSK;
-    const A = './assets';
+    const A = '/assets';
     return /*#__PURE__*/React.createElement("main", null, /*#__PURE__*/React.createElement("section", {
       id: "top",
       style: {
@@ -2251,7 +2267,7 @@
       width: "narrow"
     }, /*#__PURE__*/React.createElement(Reveal, null, /*#__PURE__*/React.createElement(MediaSplit, {
       image: `${A}/img-felix-wide.jpg`,
-      alt: "Felix Reidinger",
+      alt: "Felix Reidinger im B\xFCro, offen f\xFCr ein Kennenlerngespr\xE4ch",
       ratio: "1fr 1fr",
       gap: "clamp(28px,5vw,56px)"
     }, /*#__PURE__*/React.createElement(DuoHeading, {
@@ -2279,74 +2295,74 @@
   var DS = window.FelixReidingerDesignSystem_5335cf;
   var NavBar = DS.NavBar,
     Footer = DS.Footer;
+  var URLS = {
+    start: '/',
+    performance: '/performance/',
+    netzwerk: '/netzwerk/',
+    kontakt: '/kontakt/',
+    impressum: '/impressum/',
+    datenschutz: '/datenschutz/'
+  };
   var LINKS = [{
     id: 'start',
-    label: 'Start'
+    label: 'Start',
+    href: '/'
   }, {
     id: 'performance',
-    label: 'Performance'
+    label: 'Performance',
+    href: '/performance/'
   }, {
     id: 'netzwerk',
-    label: 'Netzwerk'
+    label: 'Netzwerk',
+    href: '/netzwerk/'
   }];
-  var PAGES = ['start', 'performance', 'netzwerk', 'kontakt', 'impressum', 'datenschutz'];
-  function pageFromHash() {
-    var h = (location.hash || '').replace(/^#\/?/, '');
-    return PAGES.indexOf(h) > -1 ? h : 'start';
-  }
-  function Site() {
-    var s = React.useState(pageFromHash());
-    var page = s[0],
-      setPage = s[1];
-    React.useEffect(function () {
-      var onHash = function () {
-        setPage(pageFromHash());
-      };
-      window.addEventListener('hashchange', onHash);
-      return function () {
-        window.removeEventListener('hashchange', onHash);
-      };
-    }, []);
+  var FOOTER = [{
+    id: 'impressum',
+    label: 'Impressum',
+    href: '/impressum/'
+  }, {
+    id: 'datenschutz',
+    label: 'Datenschutz',
+    href: '/datenschutz/'
+  }];
+  var SCREENS = {
+    start: 'StartScreen',
+    performance: 'PerformanceScreen',
+    netzwerk: 'NetzwerkScreen',
+    kontakt: 'KontaktScreen',
+    impressum: 'ImpressumScreen',
+    datenschutz: 'DatenschutzScreen'
+  };
+  function Site(props) {
+    // Echte Seitenwechsel: die Navigation sind normale Links, nur Buttons im
+    // Inhalt springen per JS.
     var go = function (id) {
-      if (!id || PAGES.indexOf(id) === -1) return;
-      if (location.hash !== '#/' + id) location.hash = '#/' + id;
-      setPage(id);
-      requestAnimationFrame(function () {
-        requestAnimationFrame(function () {
-          window.scrollTo(0, 0);
-        });
-      });
+      if (URLS[id]) window.location.href = URLS[id];
     };
-    var SCREENS = {
-      start: window.StartScreen,
-      performance: window.PerformanceScreen,
-      netzwerk: window.NetzwerkScreen,
-      kontakt: window.KontaktScreen,
-      impressum: window.ImpressumScreen,
-      datenschutz: window.DatenschutzScreen
-    };
-    var Screen = SCREENS[page] || window.StartScreen;
+    var Screen = window[SCREENS[props.page] || 'StartScreen'];
     return React.createElement(React.Fragment, null, React.createElement(NavBar, {
       links: LINKS,
-      active: page,
-      onNavigate: go,
+      active: props.page,
       tone: 'beige',
-      ctaId: 'kontakt'
+      cta: 'Termin vereinbaren',
+      ctaHref: '/kontakt/',
+      homeHref: '/'
     }), React.createElement('div', {
       className: 'fr-page',
-      key: page
+      id: 'inhalt'
     }, React.createElement(Screen, {
       onNavigate: go
     })), React.createElement(Footer, {
-      onNavigate: go,
-      links: [{
-        id: 'impressum',
-        label: 'Impressum'
-      }, {
-        id: 'datenschutz',
-        label: 'Datenschutz'
-      }]
+      links: FOOTER
     }));
   }
-  ReactDOM.createRoot(document.getElementById('root')).render(React.createElement(Site));
+  window.FRSite = Site;
+  if (typeof document !== 'undefined' && document.getElementById) {
+    var root = document.getElementById('root');
+    if (root && window.ReactDOM && ReactDOM.createRoot) {
+      ReactDOM.createRoot(root).render(React.createElement(Site, {
+        page: root.dataset.page || 'start'
+      }));
+    }
+  }
 })();
